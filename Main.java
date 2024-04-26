@@ -8,13 +8,10 @@ public class Main {
         int wordLength = scanner.nextInt();
         System.out.print("Entrez le nombre d'essais maximum : ");
         int maxAttempts = scanner.nextInt();
-        System.out.print("Entrez la durée limite (en secondes) : ");
-        int timeLimit = scanner.nextInt();
 
-        GameManager gameManager = new GameManager(wordLength, maxAttempts, timeLimit);
+        GameManager gameManager = new GameManager(wordLength, maxAttempts);
         gameManager.startGame();
 
         scanner.close();
-    }
     }
 }

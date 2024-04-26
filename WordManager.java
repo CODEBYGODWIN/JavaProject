@@ -1,4 +1,4 @@
-public class Word {
+public class WordManager {
 
     private String[] words = {"apple", "banana", "orange", "grape", "kiwi", "peach", "lemon"};
 

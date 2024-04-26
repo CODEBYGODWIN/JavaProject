@@ -1,25 +1,37 @@
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameManager {
 
     private int wordLength;
     private int maxAttempts;
-    private int timeLimit;
     private String wordToGuess;
     private Scanner scanner;
+    private Timer timer;
 
-    public GameManager(int wordLength, int maxAttempts, int timeLimit) {
+    public GameManager(int wordLength, int maxAttempts) {
         this.wordLength = wordLength;
         this.maxAttempts = maxAttempts;
-        this.timeLimit = timeLimit;
         this.scanner = new Scanner(System.in);
+        this.timer = new Timer(String.valueOf(System.in));
         this.wordToGuess = new WordManager().generateRandomWord(wordLength);
     }
 
     public void startGame() {
         String attempt;
         int attempts = 0;
-        long startTime = System.currentTimeMillis();
+
+        // Création du timer
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("\nTemps écoulé ! Le jeu est terminé.");
+                scanner.close(); // Fermer le scanner
+                timer.cancel(); // Arrêter le timer
+            }
+        }, 20000); // 2 minutes en millisecondes
 
         // Boucle principale du jeu
         while (true) {
@@ -49,13 +61,8 @@ public class GameManager {
             }
         }
 
-        // Calcul du temps écoulé
-        long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-        System.out.println("Temps écoulé : " + elapsedTime + " secondes");
-
-        // Vérification si le joueur a dépassé le temps limite
-        if (elapsedTime >= timeLimit) {
-            System.out.println("Vous avez dépassé le temps limite !");
-        }
+        // Arrêter le scanner et le timer
+        scanner.close();
+        timer.cancel();
     }
 }
