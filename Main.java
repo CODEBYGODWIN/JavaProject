@@ -3,17 +3,21 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bienvenue dans le jeu du Pendu !");
-        System.out.print("Entrez la longueur du mot à deviner : ");
-        int wordLength = scanner.nextInt();
-        System.out.print("Entrez le nombre d'essais maximum : ");
-        int maxAttempts = scanner.nextInt();
-        System.out.print("Entrez la durée limite (en secondes) : ");
-        int timeLimit = scanner.nextInt();
+        try {
+            System.out.println("Bienvenue dans le jeu du Pendu !");
+            System.out.print("Entrez la longueur du mot à deviner : ");
+            int wordLength = scanner.nextInt();
+            System.out.print("Entrez le nombre d'essais maximum : ");
+            int maxAttempts = scanner.nextInt();
+            System.out.print("Entrez la durée limite (en secondes) : ");
+            int timeLimit = scanner.nextInt();
 
-        GameManager gameManager = new GameManager(wordLength, maxAttempts, timeLimit);
-        gameManager.startGame();
-
-        scanner.close();
+            GameManager gameManager = new GameManager(wordLength, maxAttempts, timeLimit);
+            gameManager.startGame();
+        } catch (ProjectException e) {
+            System.err.println("Erreur : " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
     }
 }

@@ -10,6 +10,12 @@ public class GameManager {
     private boolean isTimeUp;
 
     public GameManager(int wordLength, int maxAttempts, int timeLimit) {
+        if (timeLimit > 7200) {
+            throw new ProjectException("Le temps maximum autorisé est de 7200 secondes.");
+        }
+        if (maxAttempts < 0) {
+            throw new ProjectException("Le nombre d'essais ne peut pas être négatif.");
+        }
         this.wordLength = wordLength;
         this.maxAttempts = maxAttempts;
         this.timeLimit = timeLimit;
@@ -31,6 +37,11 @@ public class GameManager {
                 break;
             }
 
+            if (attempts == maxAttempts) {
+                System.out.println("Vous avez dépassé le nombre maximum d'essais. Le mot était : " + wordToGuess);
+                System.exit(0);
+            }
+
             System.out.println("Essai " + (attempts + 1) + "/" + maxAttempts);
             System.out.print("Entrez votre tentative de " + wordLength + " lettres : ");
             attempt = scanner.next().toLowerCase();
@@ -47,10 +58,7 @@ public class GameManager {
                 System.exit(0);
             }
 
-            if (++attempts == maxAttempts) {
-                System.out.println("Vous avez dépassé le nombre maximum d'essais. Le mot était : " + wordToGuess);
-                System.exit(0);
-            }
+            attempts++;
         }
     }
 
@@ -61,7 +69,7 @@ public class GameManager {
                 Thread.sleep(timeLimit * 1000);
                 isTimeUp = true;
             } catch (InterruptedException e) {
-                throw new RuntimeException("what is the time");
+                throw new ProjectException("Erreur lors de la gestion du temps.");
             }
         }
     }

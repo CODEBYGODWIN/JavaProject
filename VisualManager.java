@@ -1,12 +1,22 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class VisualManager {
 
     public static void displayAttempt(String attempt, String wordToGuess) {
+        Map<Character, Integer> letterCounts = new HashMap<>();
+        for (char c : wordToGuess.toCharArray()) {
+            letterCounts.put(c, letterCounts.getOrDefault(c, 0) + 1);
+        }
+
         for (int i = 0; i < attempt.length(); i++) {
             char letter = attempt.charAt(i);
             if (wordToGuess.charAt(i) == letter) {
                 printColoredSquare(letter, "vert");
-            } else if (wordToGuess.contains(Character.toString(letter))) {
+                letterCounts.put(letter, letterCounts.get(letter) - 1);
+            } else if (letterCounts.containsKey(letter) && letterCounts.get(letter) > 0) {
                 printColoredSquare(letter, "orange");
+                letterCounts.put(letter, letterCounts.get(letter) - 1);
             } else {
                 printColoredSquare(letter, "rouge");
             }
