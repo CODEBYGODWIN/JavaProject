@@ -11,10 +11,10 @@ public class GameManager {
 
     public GameManager(int wordLength, int maxAttempts, int timeLimit) {
         if (timeLimit > 7200) {
-            throw new ProjectException("Le temps maximum autorisé est de 7200 secondes.");
+            throw new ProjectException("The maximum allowed time is 7200 seconds.");
         }
         if (maxAttempts < 0) {
-            throw new ProjectException("Le nombre d'essais ne peut pas être négatif.");
+            throw new ProjectException("The number of attempts cannot be negative.");
         }
         this.wordLength = wordLength;
         this.maxAttempts = maxAttempts;
@@ -34,7 +34,7 @@ public class GameManager {
 
         while (true) {
             if (isTimeUp) {
-                System.out.println("\nTime is up");
+                System.out.println("\nSorry Time is up");
                 break;
             }
 
@@ -48,15 +48,25 @@ public class GameManager {
             System.out.println();
 
             if (attempt.length() != wordLength) {
-                System.out.println("Votre tentative doit contenir des lettres différentes et de longueur " + wordLength + ". Réessayez !");
-                continue;
+                if (isTimeUp) {
+                    System.out.println("\nSorry Time is up");
+                    break;
+                } else {
+                    System.out.println("Your attempt must have the length " + wordLength + ". Retry !");
+                    continue;
+                }
             }
 
             VisualManager.displayAttempt(attempt, wordToGuess);
 
             if (attempt.equals(wordToGuess)) {
-                System.out.println("\nYou have won");
-                System.exit(0);
+                if (isTimeUp) {
+                    System.out.println("\nSorry Time is up. You lose");
+                    break;
+                } else {
+                    System.out.println("\nYou have won");
+                    System.exit(0);
+                }
             }
             attempts++;
         }
@@ -69,7 +79,7 @@ public class GameManager {
                 Thread.sleep(timeLimit * 1000);
                 isTimeUp = true;
             } catch (InterruptedException e) {
-                throw new ProjectException("Erreur lors de la gestion du temps.");
+                throw new ProjectException("Corrupted time management");
             }
         }
     }

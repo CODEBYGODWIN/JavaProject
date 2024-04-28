@@ -9,7 +9,7 @@ public class WordManager {
     public String generateRandomWord(int length) {
         String[] wordsLength = filterWordsByLength(length);
         if (wordsLength.length == 0) {
-            throw new ProjectException("Aucun mot trouvé avec la longueur spécifiée.");
+            throw new ProjectException("No word find with that length.");
         }
         int randomIndex = (int) (Math.random() * wordsLength.length);
         return wordsLength[randomIndex];
@@ -33,7 +33,7 @@ public class WordManager {
             wordsArray = words.toArray(new String[0]);
 
         } catch (IOException e) {
-            throw new ProjectException("Erreur lors de la lecture du fichier.");
+            throw new ProjectException("Error when reading the file.");
         }
 
         assert wordsArray != null;
