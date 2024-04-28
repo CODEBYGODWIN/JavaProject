@@ -25,6 +25,7 @@ public class GameManager {
     }
 
     public void startGame() {
+        System.out.println("You have "+ this.maxAttempts+" tries to guess the word and it starts with a "+this.wordToGuess.charAt(0));
         String attempt;
         int attempts = 0;
 
@@ -33,18 +34,18 @@ public class GameManager {
 
         while (true) {
             if (isTimeUp) {
-                System.out.println("Temps écoulé !");
+                System.out.println("\nTime is up");
                 break;
             }
 
             if (attempts == maxAttempts) {
-                System.out.println("Vous avez dépassé le nombre maximum d'essais. Le mot était : " + wordToGuess);
+                System.out.println("\nYou have no more tries left. The word was : " + wordToGuess);
                 System.exit(0);
             }
 
-            System.out.println("Essai " + (attempts + 1) + "/" + maxAttempts);
-            System.out.print("Entrez votre tentative de " + wordLength + " lettres : ");
+            System.out.print("Attempt " + (attempts + 1)+": ");
             attempt = scanner.next().toLowerCase();
+            System.out.println();
 
             if (attempt.length() != wordLength) {
                 System.out.println("Votre tentative doit contenir des lettres différentes et de longueur " + wordLength + ". Réessayez !");
@@ -54,10 +55,9 @@ public class GameManager {
             VisualManager.displayAttempt(attempt, wordToGuess);
 
             if (attempt.equals(wordToGuess)) {
-                System.out.println("Félicitations ! Vous avez trouvé le mot !");
+                System.out.println("\nYou have won");
                 System.exit(0);
             }
-
             attempts++;
         }
     }

@@ -33,7 +33,7 @@ public class WordManager {
             wordsArray = words.toArray(new String[0]);
 
         } catch (IOException e) {
-            throw new ProjectException("Erreur lors de la lecture du fichier: " + e.getMessage());
+            throw new ProjectException("Erreur lors de la lecture du fichier.");
         }
 
         assert wordsArray != null;

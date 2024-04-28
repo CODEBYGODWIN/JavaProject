@@ -9,6 +9,7 @@ public class VisualManager {
             letterCounts.put(c, letterCounts.getOrDefault(c, 0) + 1);
         }
 
+        System.out.println("-".repeat((wordToGuess.length() * 4) + 1));
         for (int i = 0; i < attempt.length(); i++) {
             char letter = attempt.charAt(i);
             if (wordToGuess.charAt(i) == letter) {
@@ -21,7 +22,8 @@ public class VisualManager {
                 printColoredSquare(letter, "rouge");
             }
         }
-        System.out.println("|");
+        System.out.println("|\n");
+        System.out.println("-".repeat((wordToGuess.length() * 4) + 1));
     }
 
     private static void printColoredSquare(char letter, String color) {
