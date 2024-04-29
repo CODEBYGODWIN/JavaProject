@@ -36,7 +36,7 @@ public class GameManager {
             attempt = scanner.next().toLowerCase();
 
             if (attempt.length() != wordLength) {
-                System.out.println("Votre tentative doit contenir des lettres différentes et de longueur " + wordLength + ". Réessayez !");
+                System.out.println("La longueur du mot doit être de " + wordLength + " lettres. Réessayez !");
                 continue;
             }
 

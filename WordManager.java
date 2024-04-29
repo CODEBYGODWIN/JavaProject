@@ -13,7 +13,7 @@ public class WordManager {
     }
 
     private String[] filterWordsByLength(int length) {
-        String filePath = "C:\\Nouveau dossier\\words.txt";
+        String filePath = "C:\\Users\\33772\\Documents\\JavaProject\\words.txt";
         String[] wordsArray = null;
 
         try {
