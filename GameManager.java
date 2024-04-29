@@ -10,6 +10,12 @@ public class GameManager {
     private boolean isTimeUp;
 
     public GameManager(int wordLength, int maxAttempts, int timeLimit) {
+        if (timeLimit > 7200) {
+            throw new ProjectException("The maximum allowed time is 7200 seconds.");
+        }
+        if (maxAttempts < 0) {
+            throw new ProjectException("The number of attempts cannot be negative.");
+        }
         this.wordLength = wordLength;
         this.maxAttempts = maxAttempts;
         this.timeLimit = timeLimit;
@@ -19,6 +25,7 @@ public class GameManager {
     }
 
     public void startGame() {
+        System.out.println("You have "+ this.maxAttempts+" tries to guess the word and it starts with a "+this.wordToGuess.charAt(0));
         String attempt;
         int attempts = 0;
 
@@ -27,30 +34,41 @@ public class GameManager {
 
         while (true) {
             if (isTimeUp) {
-                System.out.println("Temps écoulé !");
+                System.out.println("\nSorry Time is up");
                 break;
             }
 
-            System.out.println("Essai " + (attempts + 1) + "/" + maxAttempts);
-            System.out.print("Entrez votre tentative de " + wordLength + " lettres : ");
+            if (attempts == maxAttempts) {
+                System.out.println("\nYou have no more tries left. The word was : " + wordToGuess);
+                System.exit(0);
+            }
+
+            System.out.print("Attempt " + (attempts + 1)+": ");
             attempt = scanner.next().toLowerCase();
+            System.out.println();
 
             if (attempt.length() != wordLength) {
-                System.out.println("La longueur du mot doit être de " + wordLength + " lettres. Réessayez !");
-                continue;
+                if (isTimeUp) {
+                    System.out.println("\nSorry Time is up");
+                    break;
+                } else {
+                    System.out.println("Your attempt must have the length " + wordLength + ". Retry !");
+                    continue;
+                }
             }
 
             VisualManager.displayAttempt(attempt, wordToGuess);
 
             if (attempt.equals(wordToGuess)) {
-                System.out.println("Félicitations ! Vous avez trouvé le mot !");
-                System.exit(0);
+                if (isTimeUp) {
+                    System.out.println("\nSorry Time is up. You lose");
+                    break;
+                } else {
+                    System.out.println("\nYou have won");
+                    System.exit(0);
+                }
             }
-
-            if (++attempts == maxAttempts) {
-                System.out.println("Vous avez dépassé le nombre maximum d'essais. Le mot était : " + wordToGuess);
-                System.exit(0);
-            }
+            attempts++;
         }
     }
 
@@ -61,7 +79,7 @@ public class GameManager {
                 Thread.sleep(timeLimit * 1000);
                 isTimeUp = true;
             } catch (InterruptedException e) {
-                throw new RuntimeException("what is the time");
+                throw new ProjectException("Corrupted time management");
             }
         }
     }

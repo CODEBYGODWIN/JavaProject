@@ -1,27 +1,30 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VisualManager {
 
     public static void displayAttempt(String attempt, String wordToGuess) {
-        Set<Character> lettersAlreadyFound = new HashSet<>(); // Pour stocker les lettres déjà trouvées
+        Map<Character, Integer> letterCounts = new HashMap<>();
+        for (char c : wordToGuess.toCharArray()) {
+            letterCounts.put(c, letterCounts.getOrDefault(c, 0) + 1);
+        }
 
+        System.out.println("-".repeat((wordToGuess.length() * 4) + 1));
         for (int i = 0; i < attempt.length(); i++) {
             char letter = attempt.charAt(i);
-
             if (wordToGuess.charAt(i) == letter) {
                 printColoredSquare(letter, "vert");
-                lettersAlreadyFound.add(letter); // Ajouter la lettre trouvée à la liste
-            } else if (wordToGuess.contains(Character.toString(letter)) && !lettersAlreadyFound.contains(letter)) {
+                letterCounts.put(letter, letterCounts.get(letter) - 1);
+            } else if (letterCounts.containsKey(letter) && letterCounts.get(letter) > 0) {
                 printColoredSquare(letter, "orange");
-                lettersAlreadyFound.add(letter); // Ajouter la lettre trouvée à la liste
+                letterCounts.put(letter, letterCounts.get(letter) - 1);
             } else {
                 printColoredSquare(letter, "rouge");
             }
         }
-        System.out.println("|");
+        System.out.println("|\n");
+        System.out.println("-".repeat((wordToGuess.length() * 4) + 1));
     }
-
 
     private static void printColoredSquare(char letter, String color) {
         String colorCode;

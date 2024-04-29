@@ -78,7 +78,7 @@ chasseur
 herbe
 nage
 piscine
-panthalon
+pantalon
 chemise
 organe
 classe
@@ -118,4 +118,4 @@ libre
 fiction
 mariage
 arme
-aazertyuiopqsdfg
+hahihuhoipyraaa
