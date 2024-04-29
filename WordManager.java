@@ -17,8 +17,7 @@ public class WordManager {
 
     private String[] filterWordsByLength(int length) {
         String filePath = "C:\\Nouveau dossier\\words.txt";
-        String[] wordsArray = null;
-
+        String[] wordsArray;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
